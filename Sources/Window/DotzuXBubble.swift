@@ -148,10 +148,13 @@ class DotzuXBubble: UIView {
         self.addGestureRecognizer(tapGesture)
         
         //liman
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(DotzuXBubble.longPress(sender:)))
-        self.addGestureRecognizer(longPress)
-        
-        tapGesture.require(toFail: longPress)
+        if #available(iOS 11.0, *) {
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(DotzuXBubble.longPress(sender:)))
+            self.addGestureRecognizer(longPress)
+            tapGesture.require(toFail: longPress)
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     func changeSideDisplay() {
@@ -228,6 +231,7 @@ class DotzuXBubble: UIView {
         delegate?.didTapDotzuXBubble()
     }
     
+    @available(iOS 11.0, *)
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         if (sender.state == .began) {
             guard let cls = NSClassFromString("UIDebuggingInformationOverlay") as? UIWindow.Type else {return}
