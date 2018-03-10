@@ -52,7 +52,7 @@
 {
   Method originalMethod;
   Method swizzledMethod;
-  
+
   if (isClassMethod) {
     originalMethod = class_getClassMethod(class, originalSelector);
     swizzledMethod = class_getClassMethod([self class], swizzledSelector);
@@ -60,9 +60,10 @@
     originalMethod = class_getInstanceMethod(class, originalSelector);
     swizzledMethod = class_getInstanceMethod([self class], swizzledSelector);
   }
-  
+
   method_exchangeImplementations(originalMethod, swizzledMethod);
 }
 
 @end
 #pragma clang diagnostic pop
+
