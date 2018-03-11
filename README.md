@@ -7,4 +7,4 @@
 ![Languages](https://img.shields.io/badge/languages-Swift%20%7C%20ObjC-orange.svg)
 <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License MIT"/>
 
-Next Generation of Dotzu
+Next Generation of [Dotzu](https://github.com/remirobert/Dotzu)
