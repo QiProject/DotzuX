@@ -7,5 +7,6 @@
 ![Platform](https://img.shields.io/badge/platforms-iOS%208.0+-blue.svg)
 ![Languages](https://img.shields.io/badge/languages-Swift%20%7C%20ObjC-orange.svg)
 <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License MIT"/>
+[![codecov](https://codecov.io/gh/DotzuX/DotzuX/branch/swift3.2/graph/badge.svg)](https://codecov.io/gh/DotzuX/DotzuX)
 
 Next Generation of [Dotzu](https://github.com/remirobert/Dotzu)
