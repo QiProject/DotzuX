@@ -9,10 +9,6 @@
 import UIKit
 
 class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
-
-    var models: [LogModel] = [LogModel]()
-    var cacheModels: Array<LogModel>?
-    var searchModels: Array<LogModel>?
     
     var flag: Bool = false
     var selectedSegmentIndex: Int = 0
@@ -20,63 +16,127 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var defaultTableView: UITableView!
+    var defaultModels: [LogModel] = [LogModel]()
+    var defaultCacheModels: Array<LogModel>?
+    var defaultSearchModels: Array<LogModel>?
+    
+    @IBOutlet weak var colorTableView: UITableView!
+    var colorModels: [LogModel] = [LogModel]()
+    var colorCacheModels: Array<LogModel>?
+    var colorSearchModels: Array<LogModel>?
     
     
     
     //MARK: - tool
     //搜索逻辑
     func searchLogic(_ searchText: String = "") {
-        guard let cacheModels = cacheModels else {return}
-        searchModels = cacheModels
         
-        if searchText == "" {
-            models = cacheModels
-        }else{
-            guard let searchModels = searchModels else {return}
+        if selectedSegmentIndex == 0
+        {
+            guard let defaultCacheModels = defaultCacheModels else {return}
+            defaultSearchModels = defaultCacheModels
             
-            for _ in searchModels {
-                if let index = self.searchModels?.index(where: { (model) -> Bool in
-                    return !model.content.lowercased().contains(searchText.lowercased())//忽略大小写
-                }) {
-                    self.searchModels?.remove(at: index)
+            if searchText == "" {
+                defaultModels = defaultCacheModels
+            }else{
+                guard let defaultSearchModels = defaultSearchModels else {return}
+                
+                for _ in defaultSearchModels {
+                    if let index = self.defaultSearchModels?.index(where: { (model) -> Bool in
+                        return !model.content.lowercased().contains(searchText.lowercased())//忽略大小写
+                    }) {
+                        self.defaultSearchModels?.remove(at: index)
+                    }
                 }
+                defaultModels = self.defaultSearchModels ?? []
             }
-            models = self.searchModels ?? []
+        }
+        else
+        {
+            guard let colorCacheModels = colorCacheModels else {return}
+            colorSearchModels = colorCacheModels
+            
+            if searchText == "" {
+                colorModels = colorCacheModels
+            }else{
+                guard let colorSearchModels = colorSearchModels else {return}
+                
+                for _ in colorSearchModels {
+                    if let index = self.colorSearchModels?.index(where: { (model) -> Bool in
+                        return !model.content.lowercased().contains(searchText.lowercased())//忽略大小写
+                    }) {
+                        self.colorSearchModels?.remove(at: index)
+                    }
+                }
+                colorModels = self.colorSearchModels ?? []
+            }
         }
     }
     
     //MARK: - private
     func reloadLogs(_ isFirstIn: Bool = false) {
         
-        if selectedSegmentIndex == 0 {
-            models = LogStoreManager.shared.defaultLogArray
-        }else{
-            models = LogStoreManager.shared.colorLogArray
-        }
-        
-        
-        self.cacheModels = self.models
-        
-        self.searchLogic(DotzuXSettings.shared.logSearchWord ?? "")
-        
-        dispatch_main_async_safe { [weak self] in
-            self?.tableView.reloadData()
+        if selectedSegmentIndex == 0
+        {
+            defaultModels = LogStoreManager.shared.defaultLogArray
+            defaultTableView.isHidden = false
+            colorTableView.isHidden = true
             
-            if isFirstIn == false {return}
             
-            //table下滑到底部
-            guard let count = self?.models.count else {return}
-            if count > 0 {
-                self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+            self.defaultCacheModels = self.defaultModels
+            
+            self.searchLogic(DotzuXSettings.shared.logSearchWord ?? "")
+            
+            dispatch_main_async_safe { [weak self] in
+                self?.defaultTableView.reloadData()
                 
-                /*
-                 //滑动不到最底部, 弃用
-                 if let h1 = self?.tableView.contentSize.height, let h2 = self?.tableView.frame.size.height, let bottom = self?.tableView.contentInset.bottom {
-                 if h1 > h2 {
-                 self?.tableView.setContentOffset(CGPoint.init(x: 0, y: h1-h2+bottom), animated: false)
-                 }
-                 }*/
+                if isFirstIn == false {return}
+                
+                //table下滑到底部
+                guard let count = self?.defaultModels.count else {return}
+                if count > 0 {
+                    self?.defaultTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                    
+                    /*
+                     //滑动不到最底部, 弃用
+                     if let h1 = self?.tableView.contentSize.height, let h2 = self?.tableView.frame.size.height, let bottom = self?.tableView.contentInset.bottom {
+                     if h1 > h2 {
+                     self?.tableView.setContentOffset(CGPoint.init(x: 0, y: h1-h2+bottom), animated: false)
+                     }
+                     }*/
+                }
+            }
+        }
+        else
+        {
+            colorModels = LogStoreManager.shared.colorLogArray
+            defaultTableView.isHidden = true
+            colorTableView.isHidden = false
+            
+            
+            self.colorCacheModels = self.colorModels
+            
+            self.searchLogic(DotzuXSettings.shared.logSearchWord ?? "")
+            
+            dispatch_main_async_safe { [weak self] in
+                self?.colorTableView.reloadData()
+                
+                if isFirstIn == false {return}
+                
+                //table下滑到底部
+                guard let count = self?.colorModels.count else {return}
+                if count > 0 {
+                    self?.colorTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                    
+                    /*
+                     //滑动不到最底部, 弃用
+                     if let h1 = self?.tableView.contentSize.height, let h2 = self?.tableView.frame.size.height, let bottom = self?.tableView.contentInset.bottom {
+                     if h1 > h2 {
+                     self?.tableView.setContentOffset(CGPoint.init(x: 0, y: h1-h2+bottom), animated: false)
+                     }
+                     }*/
+                }
             }
         }
     }
@@ -87,9 +147,15 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshLogs_notification), name: NSNotification.Name("refreshLogs_DotzuX"), object: nil)
         
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.dataSource = self
+        defaultTableView.tableFooterView = UIView()
+        defaultTableView.delegate = self
+        defaultTableView.dataSource = self
+        
+        colorTableView.tableFooterView = UIView()
+        colorTableView.delegate = self
+        colorTableView.dataSource = self
+        
+        //searchBar
         searchBar.delegate = self
         searchBar.text = DotzuXSettings.shared.logSearchWord
         
@@ -111,12 +177,26 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         flag = true
         
         
-        let count = self.models.count
-        
-        if count > 0 {
-            //否则第一次进入滑动不到底部
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+        if selectedSegmentIndex == 0
+        {
+            let count = self.defaultModels.count
+            
+            if count > 0 {
+                //否则第一次进入滑动不到底部
+                DispatchQueue.main.async { [weak self] in
+                    self?.defaultTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                }
+            }
+        }
+        else
+        {
+            let count = self.colorModels.count
+            
+            if count > 0 {
+                //否则第一次进入滑动不到底部
+                DispatchQueue.main.async { [weak self] in
+                    self?.colorTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                }
             }
         }
     }
@@ -132,20 +212,35 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     
     //MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return models.count
+        if tableView == defaultTableView {
+            return defaultModels.count
+        }else{
+            return colorModels.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        //否则偶尔crash
-        if indexPath.row >= models.count {
-            return UITableViewCell()
+        if tableView == defaultTableView {
+            //否则偶尔crash
+            if indexPath.row >= defaultModels.count {
+                return UITableViewCell()
+            }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LogCell", for: indexPath)
+                as! LogCell
+            cell.model = defaultModels[indexPath.row]
+            return cell
+        }else{
+            //否则偶尔crash
+            if indexPath.row >= colorModels.count {
+                return UITableViewCell()
+            }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LogCell", for: indexPath)
+                as! LogCell
+            cell.model = colorModels[indexPath.row]
+            return cell
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LogCell", for: indexPath)
-            as! LogCell
-        cell.model = models[indexPath.row]
-        return cell
     }
     
     //MARK: - UITableViewDelegate
@@ -157,39 +252,70 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     
     @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let model = models[indexPath.row]
-        var title = "Tag"
-        if model.isTag == true {title = "UnTag"}
-        
-        let left = UIContextualAction(style: .normal, title: title) { [weak self] (action, sourceView, completionHandler) in
-            model.isTag = !model.isTag
-            self?.dispatch_main_async_safe { [weak self] in
-                self?.tableView.reloadData()
+        if tableView == defaultTableView {
+            let model = defaultModels[indexPath.row]
+            var title = "Tag"
+            if model.isTag == true {title = "UnTag"}
+            
+            let left = UIContextualAction(style: .normal, title: title) { [weak self] (action, sourceView, completionHandler) in
+                model.isTag = !model.isTag
+                self?.dispatch_main_async_safe { [weak self] in
+                    self?.defaultTableView.reloadData()
+                }
+                completionHandler(true)
             }
-            completionHandler(true)
+            
+            searchBar.resignFirstResponder()
+            left.backgroundColor = .init(hexString: "#007aff")
+            return UISwipeActionsConfiguration(actions: [left])
+        }else{
+            let model = colorModels[indexPath.row]
+            var title = "Tag"
+            if model.isTag == true {title = "UnTag"}
+            
+            let left = UIContextualAction(style: .normal, title: title) { [weak self] (action, sourceView, completionHandler) in
+                model.isTag = !model.isTag
+                self?.dispatch_main_async_safe { [weak self] in
+                    self?.colorTableView.reloadData()
+                }
+                completionHandler(true)
+            }
+            
+            searchBar.resignFirstResponder()
+            left.backgroundColor = .init(hexString: "#007aff")
+            return UISwipeActionsConfiguration(actions: [left])
         }
-        
-        searchBar.resignFirstResponder()
-        left.backgroundColor = .init(hexString: "#007aff")
-        return UISwipeActionsConfiguration(actions: [left])
     }
     
     @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, sourceView, completionHandler) in
-            guard let models = self?.models else {return}
-            LogStoreManager.shared.removeLog(models[indexPath.row])
-            self?.models.remove(at: indexPath.row)
-            self?.dispatch_main_async_safe { [weak self] in
-                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+        if tableView == defaultTableView {
+            let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, sourceView, completionHandler) in
+                guard let models = self?.defaultModels else {return}
+                LogStoreManager.shared.removeLog(models[indexPath.row])
+                self?.defaultModels.remove(at: indexPath.row)
+                self?.dispatch_main_async_safe { [weak self] in
+                    self?.defaultTableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+                completionHandler(true)
             }
-            completionHandler(true)
+            
+            searchBar.resignFirstResponder()
+            return UISwipeActionsConfiguration(actions: [delete])
+        }else{
+            let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, sourceView, completionHandler) in
+                guard let models = self?.colorModels else {return}
+                LogStoreManager.shared.removeLog(models[indexPath.row])
+                self?.colorModels.remove(at: indexPath.row)
+                self?.dispatch_main_async_safe { [weak self] in
+                    self?.colorTableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+                completionHandler(true)
+            }
+            
+            searchBar.resignFirstResponder()
+            return UISwipeActionsConfiguration(actions: [delete])
         }
-        
-        searchBar.resignFirstResponder()
-        return UISwipeActionsConfiguration(actions: [delete])
     }
     
     //MARK: - only for ios8/ios9/ios10, not ios11
@@ -203,11 +329,21 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         return true
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == .delete) {
-            LogStoreManager.shared.removeLog(models[indexPath.row])
-            self.models.remove(at: indexPath.row)
-            self.dispatch_main_async_safe { [weak self] in
-                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+        if tableView == defaultTableView {
+            if (editingStyle == .delete) {
+                LogStoreManager.shared.removeLog(defaultModels[indexPath.row])
+                self.defaultModels.remove(at: indexPath.row)
+                self.dispatch_main_async_safe { [weak self] in
+                    self?.defaultTableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            }
+        }else{
+            if (editingStyle == .delete) {
+                LogStoreManager.shared.removeLog(colorModels[indexPath.row])
+                self.colorModels.remove(at: indexPath.row)
+                self.dispatch_main_async_safe { [weak self] in
+                    self?.colorTableView.deleteRows(at: [indexPath], with: .automatic)
+                }
             }
         }
     }
@@ -226,11 +362,20 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
-        DotzuXSettings.shared.logSearchWord = searchText
-        searchLogic(searchText)
-        
-        dispatch_main_async_safe { [weak self] in
-            self?.tableView.reloadData()
+        if selectedSegmentIndex == 0 {
+            DotzuXSettings.shared.logSearchWord = searchText
+            searchLogic(searchText)
+            
+            dispatch_main_async_safe { [weak self] in
+                self?.defaultTableView.reloadData()
+            }
+        }else{
+            DotzuXSettings.shared.logSearchWord = searchText
+            searchLogic(searchText)
+            
+            dispatch_main_async_safe { [weak self] in
+                self?.colorTableView.reloadData()
+            }
         }
     }
     
@@ -238,18 +383,27 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     @IBAction func resetLogs(_ sender: Any) {
         searchBar.resignFirstResponder()
         
-        models = []
-        cacheModels = []
-        
-        if selectedSegmentIndex == 0 {
+        if selectedSegmentIndex == 0
+        {
+            defaultModels = []
+            defaultCacheModels = []
+            
             LogStoreManager.shared.resetDefaultLogs()
-        }else{
-            LogStoreManager.shared.resetColorLogs()
+            
+            dispatch_main_async_safe { [weak self] in
+                self?.defaultTableView.reloadData()
+            }
         }
-        
-        
-        dispatch_main_async_safe { [weak self] in
-            self?.tableView.reloadData()
+        else
+        {
+            colorModels = []
+            colorCacheModels = []
+            
+            LogStoreManager.shared.resetColorLogs()
+            
+            dispatch_main_async_safe { [weak self] in
+                self?.colorTableView.reloadData()
+            }
         }
     }
     
