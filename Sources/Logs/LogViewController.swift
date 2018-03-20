@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LogViewController: UITableViewController, UISearchBarDelegate {
+class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
 
     var models: [LogModel] = [LogModel]()
     var cacheModels: Array<LogModel>?
@@ -19,6 +19,9 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     
     
     //MARK: - tool
@@ -79,6 +82,28 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
     }
     
     //MARK: - init
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshLogs_notification), name: NSNotification.Name("refreshLogs_DotzuX"), object: nil)
+        
+        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        searchBar.delegate = self
+        searchBar.text = DotzuXSettings.shared.logSearchWord
+        
+        //segmentedControl
+        selectedSegmentIndex = DotzuXSettings.shared.logSelectIndex 
+        segmentedControl.selectedSegmentIndex = selectedSegmentIndex
+        
+        reloadLogs(true)
+
+        //hide searchBar icon
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as! UITextField
+        textFieldInsideSearchBar.leftViewMode = UITextFieldViewMode.never
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -96,26 +121,6 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshLogs_notification), name: NSNotification.Name("refreshLogs_DotzuX"), object: nil)
-        
-        //segmentedControl
-        selectedSegmentIndex = DotzuXSettings.shared.logSelectIndex 
-        segmentedControl.selectedSegmentIndex = selectedSegmentIndex
-        
-        reloadLogs(true)
-        
-        tableView.tableFooterView = UIView()
-        searchBar.delegate = self
-        searchBar.text = DotzuXSettings.shared.logSearchWord
-
-        //hide searchBar icon
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as! UITextField
-        textFieldInsideSearchBar.leftViewMode = UITextFieldViewMode.never
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         searchBar.resignFirstResponder()
@@ -126,11 +131,11 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
     }
     
     //MARK: - UITableViewDataSource
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return models.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //否则偶尔crash
         if indexPath.row >= models.count {
@@ -144,14 +149,14 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
     }
     
     //MARK: - UITableViewDelegate
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         tableView.deselectRow(at: indexPath, animated: true)
         searchBar.resignFirstResponder()
     }
     
     @available(iOS 11.0, *)
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let model = models[indexPath.row]
         var title = "Tag"
@@ -171,7 +176,7 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
     }
     
     @available(iOS 11.0, *)
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, sourceView, completionHandler) in
             guard let models = self?.models else {return}
@@ -188,16 +193,16 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
     }
     
     //MARK: - only for ios8/ios9/ios10, not ios11
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         return .delete
     }
-    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "Delete"
     }
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             LogStoreManager.shared.removeLog(models[indexPath.row])
             self.models.remove(at: indexPath.row)
@@ -208,7 +213,7 @@ class LogViewController: UITableViewController, UISearchBarDelegate {
     }
     
     //MARK: - UIScrollViewDelegate
-    override func scrollViewDidScroll(_ scrollView: UIScrollView)
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
         searchBar.resignFirstResponder()
     }

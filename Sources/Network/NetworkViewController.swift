@@ -76,24 +76,6 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     //MARK: - init
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if foo == true {return}
-        foo = true
-        
-        
-        guard let models = self.models else {return}
-        let count = models.count
-        
-        if count > 0 {
-            //否则第一次进入滑动不到底部
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,6 +96,24 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
         textFieldInsideSearchBar.leftViewMode = UITextFieldViewMode.never
         
         reloadHttp(true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if foo == true {return}
+        foo = true
+        
+        
+        guard let models = self.models else {return}
+        let count = models.count
+        
+        if count > 0 {
+            //否则第一次进入滑动不到底部
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
