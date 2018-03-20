@@ -13,15 +13,16 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     var flag: Bool = false
     var selectedSegmentIndex: Int = 0
     
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     @IBOutlet weak var defaultTableView: UITableView!
+    @IBOutlet weak var defaultSearchBar: UISearchBar!
     var defaultModels: [LogModel] = [LogModel]()
     var defaultCacheModels: Array<LogModel>?
     var defaultSearchModels: Array<LogModel>?
     
     @IBOutlet weak var colorTableView: UITableView!
+    @IBOutlet weak var colorSearchBar: UISearchBar!
     var colorModels: [LogModel] = [LogModel]()
     var colorCacheModels: Array<LogModel>?
     var colorSearchModels: Array<LogModel>?
@@ -75,14 +76,16 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     }
     
     //MARK: - private
-    func reloadLogs(_ isFirstIn: Bool = false) {
+    func reloadLogs(_ isFirstIn: Bool = false, _ needReloadData: Bool = true) {
         
         if selectedSegmentIndex == 0
         {
-            defaultModels = LogStoreManager.shared.defaultLogArray
             defaultTableView.isHidden = false
             colorTableView.isHidden = true
             
+            if needReloadData == false && defaultModels.count > 0 {return}
+            
+            defaultModels = LogStoreManager.shared.defaultLogArray
             
             self.defaultCacheModels = self.defaultModels
             
@@ -110,10 +113,12 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         }
         else
         {
-            colorModels = LogStoreManager.shared.colorLogArray
             defaultTableView.isHidden = true
             colorTableView.isHidden = false
             
+            if needReloadData == false && colorModels.count > 0 {return}
+            
+            colorModels = LogStoreManager.shared.colorLogArray
             
             self.colorCacheModels = self.colorModels
             
@@ -150,14 +155,14 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         defaultTableView.tableFooterView = UIView()
         defaultTableView.delegate = self
         defaultTableView.dataSource = self
+        defaultSearchBar.delegate = self
+        defaultSearchBar.text = DotzuXSettings.shared.logSearchWord
         
         colorTableView.tableFooterView = UIView()
         colorTableView.delegate = self
         colorTableView.dataSource = self
-        
-        //searchBar
-        searchBar.delegate = self
-        searchBar.text = DotzuXSettings.shared.logSearchWord
+        colorSearchBar.delegate = self
+        colorSearchBar.text = DotzuXSettings.shared.logSearchWord
         
         //segmentedControl
         selectedSegmentIndex = DotzuXSettings.shared.logSelectIndex 
@@ -166,8 +171,11 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         reloadLogs(true)
 
         //hide searchBar icon
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as! UITextField
+        let textFieldInsideSearchBar = defaultSearchBar.value(forKey: "searchField") as! UITextField
         textFieldInsideSearchBar.leftViewMode = UITextFieldViewMode.never
+        
+        let textFieldInsideSearchBar2 = colorSearchBar.value(forKey: "searchField") as! UITextField
+        textFieldInsideSearchBar2.leftViewMode = UITextFieldViewMode.never
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -203,7 +211,8 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        searchBar.resignFirstResponder()
+        defaultSearchBar.resignFirstResponder()
+        colorSearchBar.resignFirstResponder()
     }
     
     deinit {
@@ -246,8 +255,13 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     //MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        tableView.deselectRow(at: indexPath, animated: true)
-        searchBar.resignFirstResponder()
+        if tableView == defaultTableView {
+            tableView.deselectRow(at: indexPath, animated: true)
+            defaultSearchBar.resignFirstResponder()
+        }else{
+            tableView.deselectRow(at: indexPath, animated: true)
+            colorSearchBar.resignFirstResponder()
+        }
     }
     
     @available(iOS 11.0, *)
@@ -265,7 +279,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
                 completionHandler(true)
             }
             
-            searchBar.resignFirstResponder()
+            defaultSearchBar.resignFirstResponder()
             left.backgroundColor = .init(hexString: "#007aff")
             return UISwipeActionsConfiguration(actions: [left])
         }else{
@@ -281,7 +295,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
                 completionHandler(true)
             }
             
-            searchBar.resignFirstResponder()
+            colorSearchBar.resignFirstResponder()
             left.backgroundColor = .init(hexString: "#007aff")
             return UISwipeActionsConfiguration(actions: [left])
         }
@@ -300,7 +314,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
                 completionHandler(true)
             }
             
-            searchBar.resignFirstResponder()
+            defaultSearchBar.resignFirstResponder()
             return UISwipeActionsConfiguration(actions: [delete])
         }else{
             let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, sourceView, completionHandler) in
@@ -313,7 +327,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
                 completionHandler(true)
             }
             
-            searchBar.resignFirstResponder()
+            colorSearchBar.resignFirstResponder()
             return UISwipeActionsConfiguration(actions: [delete])
         }
     }
@@ -351,7 +365,11 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     //MARK: - UIScrollViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
-        searchBar.resignFirstResponder()
+        if scrollView == defaultTableView {
+            defaultSearchBar.resignFirstResponder()
+        }else{
+            colorSearchBar.resignFirstResponder()
+        }
     }
 
     //MARK: - UISearchBarDelegate
@@ -362,7 +380,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
-        if selectedSegmentIndex == 0 {
+        if searchBar == defaultSearchBar {
             DotzuXSettings.shared.logSearchWord = searchText
             searchLogic(searchText)
             
@@ -381,12 +399,12 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     
     //MARK: - target action
     @IBAction func resetLogs(_ sender: Any) {
-        searchBar.resignFirstResponder()
         
         if selectedSegmentIndex == 0
         {
             defaultModels = []
             defaultCacheModels = []
+            defaultSearchBar.resignFirstResponder()
             
             LogStoreManager.shared.resetDefaultLogs()
             
@@ -398,6 +416,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         {
             colorModels = []
             colorCacheModels = []
+            colorSearchBar.resignFirstResponder()
             
             LogStoreManager.shared.resetColorLogs()
             
@@ -411,7 +430,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         selectedSegmentIndex = segmentedControl.selectedSegmentIndex
         DotzuXSettings.shared.logSelectIndex = selectedSegmentIndex
         
-        reloadLogs()
+        reloadLogs(false, false)
     }
     
     

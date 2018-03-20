@@ -200,9 +200,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="colorSearchBar" destination="hXi-Lf-ail" id="mYL-bd-GIU"/>
                         <outlet property="colorTableView" destination="WLZ-6R-TSc" id="YVd-th-shz"/>
+                        <outlet property="defaultSearchBar" destination="3hB-YR-cpw" id="qYN-Wj-LcY"/>
                         <outlet property="defaultTableView" destination="An3-qi-TOk" id="zYM-eD-1NK"/>
-                        <outlet property="searchBar" destination="3hB-YR-cpw" id="4d8-jj-pOd"/>
                         <outlet property="segmentedControl" destination="IXG-wV-Zn7" id="aBP-NK-VhD"/>
                     </connections>
                 </viewController>
