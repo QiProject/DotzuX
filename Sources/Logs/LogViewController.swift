@@ -89,7 +89,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
             
             self.defaultCacheModels = self.defaultModels
             
-            self.searchLogic(DotzuXSettings.shared.logSearchWord ?? "")
+            self.searchLogic(DotzuXSettings.shared.logSearchWordDefault ?? "")
             
             dispatch_main_async_safe { [weak self] in
                 self?.defaultTableView.reloadData()
@@ -122,7 +122,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
             
             self.colorCacheModels = self.colorModels
             
-            self.searchLogic(DotzuXSettings.shared.logSearchWord ?? "")
+            self.searchLogic(DotzuXSettings.shared.logSearchWordColor ?? "")
             
             dispatch_main_async_safe { [weak self] in
                 self?.colorTableView.reloadData()
@@ -156,13 +156,13 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         defaultTableView.delegate = self
         defaultTableView.dataSource = self
         defaultSearchBar.delegate = self
-        defaultSearchBar.text = DotzuXSettings.shared.logSearchWord
+        defaultSearchBar.text = DotzuXSettings.shared.logSearchWordDefault
         
         colorTableView.tableFooterView = UIView()
         colorTableView.delegate = self
         colorTableView.dataSource = self
         colorSearchBar.delegate = self
-        colorSearchBar.text = DotzuXSettings.shared.logSearchWord
+        colorSearchBar.text = DotzuXSettings.shared.logSearchWordColor
         
         //segmentedControl
         selectedSegmentIndex = DotzuXSettings.shared.logSelectIndex 
@@ -381,14 +381,14 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
         if searchBar == defaultSearchBar {
-            DotzuXSettings.shared.logSearchWord = searchText
+            DotzuXSettings.shared.logSearchWordDefault = searchText
             searchLogic(searchText)
             
             dispatch_main_async_safe { [weak self] in
                 self?.defaultTableView.reloadData()
             }
         }else{
-            DotzuXSettings.shared.logSearchWord = searchText
+            DotzuXSettings.shared.logSearchWordColor = searchText
             searchLogic(searchText)
             
             dispatch_main_async_safe { [weak self] in
@@ -404,7 +404,9 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         {
             defaultModels = []
             defaultCacheModels = []
+            defaultSearchBar.text = nil
             defaultSearchBar.resignFirstResponder()
+            DotzuXSettings.shared.logSearchWordDefault = nil
             
             LogStoreManager.shared.resetDefaultLogs()
             
@@ -416,7 +418,9 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         {
             colorModels = []
             colorCacheModels = []
+            colorSearchBar.text = nil
             colorSearchBar.resignFirstResponder()
+            DotzuXSettings.shared.logSearchWordColor = nil
             
             LogStoreManager.shared.resetColorLogs()
             

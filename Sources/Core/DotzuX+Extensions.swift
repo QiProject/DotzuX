@@ -233,7 +233,8 @@ extension DotzuX {
         }
         
         DotzuXSettings.shared.visible = false
-        DotzuXSettings.shared.logSearchWord = nil
+        DotzuXSettings.shared.logSearchWordDefault = nil
+        DotzuXSettings.shared.logSearchWordColor = nil
         DotzuXSettings.shared.networkSearchWord = nil
         DotzuXSettings.shared.recordCrash = recordCrash
         

@@ -282,7 +282,9 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
         HttpDatasource.shared().reset()
         models = []
         cacheModels = []
+        searchBar.text = nil
         searchBar.resignFirstResponder()
+        DotzuXSettings.shared.networkSearchWord = nil
         
         dispatch_main_async_safe { [weak self] in
             self?.tableView.reloadData()
