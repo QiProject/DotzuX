@@ -10,8 +10,9 @@ import UIKit
 
 class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
     
-    var flag: Bool = false
     var selectedSegmentIndex: Int = 0
+    var selectedSegment_0: Bool = false
+    var selectedSegment_1: Bool = false
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -76,7 +77,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     }
     
     //MARK: - private
-    func reloadLogs(_ isFirstIn: Bool = false, _ needReloadData: Bool = true) {
+    func reloadLogs(isFirstIn: Bool = false, needReloadData: Bool = true) {
         
         if selectedSegmentIndex == 0
         {
@@ -170,7 +171,13 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         selectedSegmentIndex = DotzuXSettings.shared.logSelectIndex 
         segmentedControl.selectedSegmentIndex = selectedSegmentIndex
         
-        reloadLogs(true)
+        if selectedSegmentIndex == 0 {
+            selectedSegment_0 = true
+        }else{
+            selectedSegment_1 = true
+        }
+        
+        reloadLogs(isFirstIn: true, needReloadData: true)
 
         //hide searchBar icon
         let textFieldInsideSearchBar = defaultSearchBar.value(forKey: "searchField") as! UITextField
@@ -178,39 +185,6 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         
         let textFieldInsideSearchBar2 = colorSearchBar.value(forKey: "searchField") as! UITextField
         textFieldInsideSearchBar2.leftViewMode = UITextFieldViewMode.never
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if flag == true {return}
-        flag = true
-        
-        
-        if selectedSegmentIndex == 0
-        {
-            let count = self.defaultModels.count
-            
-            if count > 0 {
-                //否则第一次进入滑动不到底部
-                DispatchQueue.main.async { [weak self] in
-                    self?.defaultTableView.tableViewScrollToBottom(animated: false)
-                    //self?.defaultTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
-                }
-            }
-        }
-        else
-        {
-            let count = self.colorModels.count
-            
-            if count > 0 {
-                //否则第一次进入滑动不到底部
-                DispatchQueue.main.async { [weak self] in
-                    self?.colorTableView.tableViewScrollToBottom(animated: false)
-                    //self?.colorTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
-                }
-            }
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -438,13 +412,25 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         selectedSegmentIndex = segmentedControl.selectedSegmentIndex
         DotzuXSettings.shared.logSelectIndex = selectedSegmentIndex
         
-        reloadLogs(false, false)
+        if selectedSegmentIndex == 0 && selectedSegment_0 == false {
+            selectedSegment_0 = true
+            reloadLogs(isFirstIn: true, needReloadData: true)
+            return
+        }
+        
+        if selectedSegmentIndex == 1 && selectedSegment_1 == false {
+            selectedSegment_1 = true
+            reloadLogs(isFirstIn: true, needReloadData: true)
+            return
+        }
+        
+        reloadLogs(isFirstIn: false, needReloadData: false)
     }
     
     
     //MARK: - notification
     @objc func refreshLogs_notification() {
-        reloadLogs()
+        reloadLogs(isFirstIn: false, needReloadData: true)
     }
 }
 

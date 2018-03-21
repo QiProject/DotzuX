@@ -14,8 +14,6 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
     var cacheModels: Array<HttpModel>?
     var searchModels: Array<HttpModel>?
     
-    var foo: Bool = false
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -46,7 +44,7 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     //MARK: - private
-    func reloadHttp(_ isFirstIn: Bool = false) {
+    func reloadHttp(isFirstIn: Bool = false) {
         
         self.models = (HttpDatasource.shared().httpModels as NSArray as? [HttpModel])
         self.cacheModels = self.models
@@ -96,26 +94,7 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as! UITextField
         textFieldInsideSearchBar.leftViewMode = UITextFieldViewMode.never
         
-        reloadHttp(true)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if foo == true {return}
-        foo = true
-        
-        
-        guard let models = self.models else {return}
-        let count = models.count
-        
-        if count > 0 {
-            //否则第一次进入滑动不到底部
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.tableViewScrollToBottom(animated: false)
-                //self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
-            }
-        }
+        reloadHttp(isFirstIn: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -295,7 +274,7 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
     
     //MARK: - notification
     @objc func reloadHttp_notification(_ notification: Notification) {
-        reloadHttp()
+        reloadHttp(isFirstIn: false)
     }
 }
 
