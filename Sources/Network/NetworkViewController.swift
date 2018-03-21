@@ -10,6 +10,8 @@ import UIKit
 
 class NetworkViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
+    var reachEnd: Bool = true
+    
     var models: Array<HttpModel>?
     var cacheModels: Array<HttpModel>?
     var searchModels: Array<HttpModel>?
@@ -44,7 +46,7 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     //MARK: - private
-    func reloadHttp(isFirstIn: Bool = false) {
+    func reloadHttp(needScrollToEnd: Bool = false) {
         
         self.models = (HttpDatasource.shared().httpModels as NSArray as? [HttpModel])
         self.cacheModels = self.models
@@ -54,7 +56,7 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
         dispatch_main_async_safe { [weak self] in
             self?.tableView.reloadData()
             
-            if isFirstIn == false {return}
+            if needScrollToEnd == false {return}
             
             //table下滑到底部
             if let count = self?.models?.count {
@@ -94,7 +96,7 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as! UITextField
         textFieldInsideSearchBar.leftViewMode = UITextFieldViewMode.never
         
-        reloadHttp(isFirstIn: true)
+        reloadHttp(needScrollToEnd: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -240,6 +242,13 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
         searchBar.resignFirstResponder()
+        
+        if tableView.contentOffset.y >= (tableView.contentSize.height - tableView.frame.size.height) {
+            //you reached end of the table
+            reachEnd = true
+        }else{
+            reachEnd = false
+        }
     }
     
     //MARK: - UISearchBarDelegate
@@ -274,7 +283,8 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
     
     //MARK: - notification
     @objc func reloadHttp_notification(_ notification: Notification) {
-        reloadHttp(isFirstIn: false)
+        
+        reloadHttp(needScrollToEnd: reachEnd)
     }
 }
 

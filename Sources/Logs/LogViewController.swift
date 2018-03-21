@@ -10,8 +10,11 @@ import UIKit
 
 class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    var reachEndDefault: Bool = true
+    var reachEndColor: Bool = true
+    
     var selectedSegmentIndex: Int = 0
-    var selectedSegment_0: Bool = false
+    var selectedSegment_0: Bool = true
     var selectedSegment_1: Bool = false
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -77,7 +80,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     }
     
     //MARK: - private
-    func reloadLogs(isFirstIn: Bool = false, needReloadData: Bool = true) {
+    func reloadLogs(needScrollToEnd: Bool = false, needReloadData: Bool = true) {
         
         if selectedSegmentIndex == 0
         {
@@ -95,7 +98,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
             dispatch_main_async_safe { [weak self] in
                 self?.defaultTableView.reloadData()
                 
-                if isFirstIn == false {return}
+                if needScrollToEnd == false {return}
                 
                 //table下滑到底部
                 guard let count = self?.defaultModels.count else {return}
@@ -129,7 +132,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
             dispatch_main_async_safe { [weak self] in
                 self?.colorTableView.reloadData()
                 
-                if isFirstIn == false {return}
+                if needScrollToEnd == false {return}
                 
                 //table下滑到底部
                 guard let count = self?.colorModels.count else {return}
@@ -177,7 +180,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
             selectedSegment_1 = true
         }
         
-        reloadLogs(isFirstIn: true, needReloadData: true)
+        reloadLogs(needScrollToEnd: true, needReloadData: true)
 
         //hide searchBar icon
         let textFieldInsideSearchBar = defaultSearchBar.value(forKey: "searchField") as! UITextField
@@ -343,10 +346,27 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     //MARK: - UIScrollViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
-        if scrollView == defaultTableView {
+        if scrollView == defaultTableView
+        {
             defaultSearchBar.resignFirstResponder()
-        }else{
+            
+            if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+                //you reached end of the table default
+                reachEndDefault = true
+            }else{
+                reachEndDefault = false
+            }
+        }
+        else
+        {
             colorSearchBar.resignFirstResponder()
+            
+            if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+                //you reached end of the table color
+                reachEndColor = true
+            }else{
+                reachEndColor = false
+            }
         }
     }
 
@@ -414,23 +434,28 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
         
         if selectedSegmentIndex == 0 && selectedSegment_0 == false {
             selectedSegment_0 = true
-            reloadLogs(isFirstIn: true, needReloadData: true)
+            reloadLogs(needScrollToEnd: true, needReloadData: true)
             return
         }
         
         if selectedSegmentIndex == 1 && selectedSegment_1 == false {
             selectedSegment_1 = true
-            reloadLogs(isFirstIn: true, needReloadData: true)
+            reloadLogs(needScrollToEnd: true, needReloadData: true)
             return
         }
         
-        reloadLogs(isFirstIn: false, needReloadData: false)
+        reloadLogs(needScrollToEnd: false, needReloadData: false)
     }
     
     
     //MARK: - notification
     @objc func refreshLogs_notification() {
-        reloadLogs(isFirstIn: false, needReloadData: true)
+        
+        if selectedSegmentIndex == 0 {
+            reloadLogs(needScrollToEnd: reachEndDefault, needReloadData: true)
+        }else{
+            reloadLogs(needScrollToEnd: reachEndColor, needReloadData: true)
+        }
     }
 }
 
