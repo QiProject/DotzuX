@@ -99,7 +99,8 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
                 //table下滑到底部
                 guard let count = self?.defaultModels.count else {return}
                 if count > 0 {
-                    self?.defaultTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                    self?.defaultTableView.tableViewScrollToBottom(animated: false)
+                    //self?.defaultTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
                     
                     /*
                      //滑动不到最底部, 弃用
@@ -132,7 +133,8 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
                 //table下滑到底部
                 guard let count = self?.colorModels.count else {return}
                 if count > 0 {
-                    self?.colorTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                    self?.colorTableView.tableViewScrollToBottom(animated: false)
+                    //self?.colorTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
                     
                     /*
                      //滑动不到最底部, 弃用
@@ -192,7 +194,8 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
             if count > 0 {
                 //否则第一次进入滑动不到底部
                 DispatchQueue.main.async { [weak self] in
-                    self?.defaultTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                    self?.defaultTableView.tableViewScrollToBottom(animated: false)
+                    //self?.defaultTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
                 }
             }
         }
@@ -203,7 +206,8 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
             if count > 0 {
                 //否则第一次进入滑动不到底部
                 DispatchQueue.main.async { [weak self] in
-                    self?.colorTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                    self?.colorTableView.tableViewScrollToBottom(animated: false)
+                    //self?.colorTableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
                 }
             }
         }

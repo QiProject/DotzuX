@@ -61,7 +61,8 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
             //table下滑到底部
             if let count = self?.models?.count {
                 if count > 0 {
-                    self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                    self?.tableView.tableViewScrollToBottom(animated: false)
+                    //self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
                     
                     /*
                      //滑动不到最底部, 弃用
@@ -111,7 +112,8 @@ class NetworkViewController: UIViewController, UITableViewDataSource, UITableVie
         if count > 0 {
             //否则第一次进入滑动不到底部
             DispatchQueue.main.async { [weak self] in
-                self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
+                self?.tableView.tableViewScrollToBottom(animated: false)
+                //self?.tableView.scrollToRow(at: IndexPath.init(row: count-1, section: 0), at: .bottom, animated: false)
             }
         }
     }
