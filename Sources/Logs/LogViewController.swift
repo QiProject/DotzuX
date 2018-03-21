@@ -14,7 +14,7 @@ class LogViewController: UIViewController, UISearchBarDelegate, UITableViewDeleg
     var reachEndColor: Bool = true
     
     var selectedSegmentIndex: Int = 0
-    var selectedSegment_0: Bool = true
+    var selectedSegment_0: Bool = false
     var selectedSegment_1: Bool = false
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
