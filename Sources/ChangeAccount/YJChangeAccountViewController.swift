@@ -57,7 +57,11 @@ extension YJChangeAccountViewController: UITableViewDataSource, UITableViewDeleg
     func getSaveAccount() -> Array<[String: Any]> {
         
         let saveAccount = UserDefaults.standard.array(forKey: "account")
-        return saveAccount as! Array<[String : Any]>;
+        if let saveAccounts = saveAccount {
+            return saveAccounts as! Array<[String : Any]>;
+        }else{
+            return Array()
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -76,17 +80,31 @@ extension YJChangeAccountViewController: UITableViewDataSource, UITableViewDeleg
         
         let accountDict = getSaveAccount()[indexPath.row]
         
-        let name = accountDict["account"] as! String
-        let pwd = accountDict["pwd"] as! String
-        let isLogin = accountDict["isLogin"] as! NSNumber
+        var account = ""
+        if let accountValue = accountDict["account"] {
+            account = accountValue as! String
+        }
         
-        var showAccount = name
+        var pwd = ""
+        if let pwdValue = accountDict["pwd"] {
+            pwd = pwdValue as! String
+        }
+        
+        var isLogin = NSNumber(value: 0)
+        if let isLoginValue = accountDict["isLogin"] {
+            isLogin = isLoginValue as! NSNumber
+        }
+        
+        
+        var showAccount = account
         if isLogin.boolValue { // 已经登录
             showAccount += "  [当前登录]"
         }
         
-        cell?.textLabel?.text = "Account : " + showAccount
-        cell?.detailTextLabel?.text = "Pwd : " + pwd
+        if showAccount.count > 0 && pwd.count > 0 {
+            cell?.textLabel?.text = "Account : " + showAccount
+            cell?.detailTextLabel?.text = "Pwd : " + pwd
+        }
         
         cell?.textLabel?.textColor = UIColor.white
         cell?.detailTextLabel?.textColor = UIColor.white
