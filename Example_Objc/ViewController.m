@@ -22,6 +22,8 @@
     RedLog(@"hello world red");
     
     [self testHTTP];
+    
+    [self _setDataToUserDefault];
 }
 
 - (void)testHTTP {
@@ -71,6 +73,26 @@
         }
     }];
     [dataTask_ resume];
+}
+
+- (void)_setDataToUserDefault{
+    
+    NSArray *accounts = @[@{@"account":@"11111", @"pwd":@"123456", @"isLogin":@0},
+  @{@"account":@"22222", @"pwd":@"888888", @"isLogin":@1},
+  @{@"account":@"33333", @"pwd":@"123456", @"isLogin":@0},
+  @{@"account":@"444444", @"pwd":@"777777", @"isLogin":@0}];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:accounts forKey:@"account"];
+    
+    [RGDebugInfoManager shared].changeAccountClosure = ^(NSString * account, NSString * pwd, NSNumber * index) {
+        NSLog(@"-->%@", account);
+        NSLog(@"-->%@", pwd);
+        NSLog(@"-->%@", index);
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [RGDebugInfoManager shared].changeAccountSuccessClosure();
+        });
+    };
 }
 
 @end

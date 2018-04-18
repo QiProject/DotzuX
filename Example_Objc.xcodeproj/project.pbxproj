@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6320AC332086E3470005ED99 /* YJChangeAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320AC322086E3470005ED99 /* YJChangeAccountViewController.swift */; };
+		6320AC39208714100005ED99 /* ChangeAccount.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6320AC38208714100005ED99 /* ChangeAccount.storyboard */; };
+		6320AC3B208714190005ED99 /* change_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6320AC3A208714190005ED99 /* change_icon@2x.png */; };
+		6320AC3D208716480005ED99 /* SwiftProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320AC3C208716480005ED99 /* SwiftProgressHUD.swift */; };
+		6320AC3F2087196A0005ED99 /* RGDebugInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320AC3E2087196A0005ED99 /* RGDebugInfoManager.swift */; };
 		EA062BC020541AD60071A231 /* DotzuXSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA062AC320541AD60071A231 /* DotzuXSettings.swift */; };
 		EA062BC120541AD60071A231 /* DotzuX.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA062AC520541AD60071A231 /* DotzuX.swift */; };
 		EA062BC220541AD60071A231 /* DotzuX+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA062AC620541AD60071A231 /* DotzuX+Extensions.swift */; };
@@ -228,7 +233,6 @@
 		EA062C9A20541AD60071A231 /* DotzuXTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA062BB320541AD60071A231 /* DotzuXTabBarController.swift */; };
 		EA062C9B20541AD60071A231 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA062BB420541AD60071A231 /* Color.swift */; };
 		EA062C9C20541AD60071A231 /* MemoryHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EA062BB520541AD60071A231 /* MemoryHelper.m */; };
-		EA062C9D20541AD60071A231 /* UIColor+DotzuX.m in Sources */ = {isa = PBXBuildFile; fileRef = EA062BB720541AD60071A231 /* UIColor+DotzuX.m */; };
 		EA062C9E20541AD60071A231 /* NSData+DotzuX.m in Sources */ = {isa = PBXBuildFile; fileRef = EA062BBA20541AD60071A231 /* NSData+DotzuX.m */; };
 		EA062C9F20541AD60071A231 /* NSString+DotzuX.m in Sources */ = {isa = PBXBuildFile; fileRef = EA062BBD20541AD60071A231 /* NSString+DotzuX.m */; };
 		EA062CA020541AD60071A231 /* NSURLRequest+DotzuX.m in Sources */ = {isa = PBXBuildFile; fileRef = EA062BBF20541AD60071A231 /* NSURLRequest+DotzuX.m */; };
@@ -258,6 +262,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6320AC322086E3470005ED99 /* YJChangeAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YJChangeAccountViewController.swift; sourceTree = "<group>"; };
+		6320AC38208714100005ED99 /* ChangeAccount.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChangeAccount.storyboard; sourceTree = "<group>"; };
+		6320AC3A208714190005ED99 /* change_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "change_icon@2x.png"; sourceTree = "<group>"; };
+		6320AC3C208716480005ED99 /* SwiftProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftProgressHUD.swift; sourceTree = "<group>"; };
+		6320AC3E2087196A0005ED99 /* RGDebugInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGDebugInfoManager.swift; sourceTree = "<group>"; };
 		EA062AC320541AD60071A231 /* DotzuXSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotzuXSettings.swift; sourceTree = "<group>"; };
 		EA062AC420541AD60071A231 /* DotzuX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotzuX.h; sourceTree = "<group>"; };
 		EA062AC520541AD60071A231 /* DotzuX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotzuX.swift; sourceTree = "<group>"; };
@@ -492,12 +501,10 @@
 		EA062BB320541AD60071A231 /* DotzuXTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotzuXTabBarController.swift; sourceTree = "<group>"; };
 		EA062BB420541AD60071A231 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		EA062BB520541AD60071A231 /* MemoryHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryHelper.m; sourceTree = "<group>"; };
-		EA062BB720541AD60071A231 /* UIColor+DotzuX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+DotzuX.m"; sourceTree = "<group>"; };
 		EA062BB820541AD60071A231 /* NSString+DotzuX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DotzuX.h"; sourceTree = "<group>"; };
 		EA062BB920541AD60071A231 /* DotzuX+Categories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DotzuX+Categories.h"; sourceTree = "<group>"; };
 		EA062BBA20541AD60071A231 /* NSData+DotzuX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+DotzuX.m"; sourceTree = "<group>"; };
 		EA062BBB20541AD60071A231 /* NSURLRequest+DotzuX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+DotzuX.h"; sourceTree = "<group>"; };
-		EA062BBC20541AD60071A231 /* UIColor+DotzuX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DotzuX.h"; sourceTree = "<group>"; };
 		EA062BBD20541AD60071A231 /* NSString+DotzuX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DotzuX.m"; sourceTree = "<group>"; };
 		EA062BBE20541AD60071A231 /* NSData+DotzuX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DotzuX.h"; sourceTree = "<group>"; };
 		EA062BBF20541AD60071A231 /* NSURLRequest+DotzuX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+DotzuX.m"; sourceTree = "<group>"; };
@@ -549,9 +556,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6320AC2B2086E1950005ED99 /* ChangeAccount */ = {
+			isa = PBXGroup;
+			children = (
+				6320AC3C208716480005ED99 /* SwiftProgressHUD.swift */,
+				6320AC322086E3470005ED99 /* YJChangeAccountViewController.swift */,
+				6320AC3E2087196A0005ED99 /* RGDebugInfoManager.swift */,
+			);
+			path = ChangeAccount;
+			sourceTree = "<group>";
+		};
 		EA062AC120541AD60071A231 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				6320AC2B2086E1950005ED99 /* ChangeAccount */,
 				EA062AC220541AD60071A231 /* Core */,
 				EA062AC720541AD60071A231 /* App */,
 				EA062AD420541AD60071A231 /* Resources */,
@@ -598,6 +616,7 @@
 		EA062AD420541AD60071A231 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6320AC38208714100005ED99 /* ChangeAccount.storyboard */,
 				EA062AD520541AD60071A231 /* NetworkCell.xib */,
 				EA062AD620541AD60071A231 /* Logs.storyboard */,
 				EA062AD720541AD60071A231 /* images */,
@@ -612,6 +631,7 @@
 		EA062AD720541AD60071A231 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6320AC3A208714190005ED99 /* change_icon@2x.png */,
 				EA062AD820541AD60071A231 /* DotzuX_logs@2x.png */,
 				EA062AD920541AD60071A231 /* DotzuX_app@2x.png */,
 				EA062ADA20541AD60071A231 /* DotzuX_close@2x.png */,
@@ -874,12 +894,10 @@
 		EA062BB620541AD60071A231 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				EA062BB720541AD60071A231 /* UIColor+DotzuX.m */,
 				EA062BB820541AD60071A231 /* NSString+DotzuX.h */,
 				EA062BB920541AD60071A231 /* DotzuX+Categories.h */,
 				EA062BBA20541AD60071A231 /* NSData+DotzuX.m */,
 				EA062BBB20541AD60071A231 /* NSURLRequest+DotzuX.h */,
-				EA062BBC20541AD60071A231 /* UIColor+DotzuX.h */,
 				EA062BBD20541AD60071A231 /* NSString+DotzuX.m */,
 				EA062BBE20541AD60071A231 /* NSData+DotzuX.h */,
 				EA062BBF20541AD60071A231 /* NSURLRequest+DotzuX.m */,
@@ -1013,7 +1031,7 @@
 					EA165EFB204D2539001472C1 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					EA6B27832059689C004D8E05 = {
 						CreatedOnToolsVersion = 9.2;
@@ -1192,12 +1210,14 @@
 				EA062BD020541AD60071A231 /* Logs.storyboard in Resources */,
 				EA062C1A20541AD60071A231 /* icon_file_type_keynote.png in Resources */,
 				EA062C4E20541AD60071A231 /* icon_file_type_dll@3x.png in Resources */,
+				6320AC3B208714190005ED99 /* change_icon@2x.png in Resources */,
 				EA062C0720541AD60071A231 /* icon_file_type_mp3.png in Resources */,
 				EA062C4D20541AD60071A231 /* icon_file_type_apk@3x.png in Resources */,
 				EA062C5420541AD60071A231 /* icon_file_type_jpg@3x.png in Resources */,
 				EA062C1020541AD60071A231 /* icon_file_type_svg@3x.png in Resources */,
 				EA062BEE20541AD60071A231 /* icon_file_type_flv@2x.png in Resources */,
 				EA062C5D20541AD60071A231 /* icon_file_type_md@3x.png in Resources */,
+				6320AC39208714100005ED99 /* ChangeAccount.storyboard in Resources */,
 				EA062C4220541AD60071A231 /* icon_file_type_psd.png in Resources */,
 				EA062C5720541AD60071A231 /* icon_file_type_wav.png in Resources */,
 				EA062C7920541AD60071A231 /* icon_file_type_pdf@3x.png in Resources */,
@@ -1259,18 +1279,19 @@
 				EA062C9920541AD60071A231 /* DotzuXBubble.swift in Sources */,
 				EA165F04204D2539001472C1 /* ViewController.m in Sources */,
 				EA062C9020541AD60071A231 /* SandboxViewController.m in Sources */,
+				6320AC3F2087196A0005ED99 /* RGDebugInfoManager.swift in Sources */,
 				EA062BC920541AD60071A231 /* IgnoredURLsViewController.swift in Sources */,
 				EA062C8A20541AD60071A231 /* LogHelper.swift in Sources */,
 				EAF5805B204E7434001CA56D /* AFSecurityPolicy.m in Sources */,
 				EA062C8C20541AD60071A231 /* LoggerFormat.swift in Sources */,
 				EA062BC020541AD60071A231 /* DotzuXSettings.swift in Sources */,
-				EA062C9D20541AD60071A231 /* UIColor+DotzuX.m in Sources */,
 				EA165F0F204D2539001472C1 /* main.m in Sources */,
 				EA062BC220541AD60071A231 /* DotzuX+Extensions.swift in Sources */,
 				EA062C9C20541AD60071A231 /* MemoryHelper.m in Sources */,
 				EA062BCC20541AD60071A231 /* Device.swift in Sources */,
 				EA062C7E20541AD60071A231 /* JsonViewController.swift in Sources */,
 				EA062C9220541AD60071A231 /* MLBFileInfo.m in Sources */,
+				6320AC3D208716480005ED99 /* SwiftProgressHUD.swift in Sources */,
 				EA062C8320541AD60071A231 /* NetworkViewController.swift in Sources */,
 				EA062C9F20541AD60071A231 /* NSString+DotzuX.m in Sources */,
 				EA062C8920541AD60071A231 /* LogViewController.swift in Sources */,
@@ -1288,6 +1309,7 @@
 				EA062BC620541AD60071A231 /* CrashModel.swift in Sources */,
 				EA062C9720541AD60071A231 /* DotzuXViewController.swift in Sources */,
 				EA062BC520541AD60071A231 /* CrashStoreManager.swift in Sources */,
+				6320AC332086E3470005ED99 /* YJChangeAccountViewController.swift in Sources */,
 				EA062C8E20541AD60071A231 /* FileTableViewCell.m in Sources */,
 				EA062C8D20541AD60071A231 /* SandboxHelper.m in Sources */,
 				EA062C8720541AD60071A231 /* LogStoreManager.swift in Sources */,
@@ -1450,13 +1472,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 33K3DU6932;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Example_Objc/PrefixHeader.pch";
 				INFOPLIST_FILE = Example_Objc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.liman.Example-Objc";
+				PRODUCT_BUNDLE_IDENTIFIER = com.houmanager.de;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example_Objc/Example_Objc-Bridging-Header.h";
@@ -1471,13 +1494,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 33K3DU6932;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Example_Objc/PrefixHeader.pch";
 				INFOPLIST_FILE = Example_Objc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.liman.Example-Objc";
+				PRODUCT_BUNDLE_IDENTIFIER = com.houmanager.de;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example_Objc/Example_Objc-Bridging-Header.h";

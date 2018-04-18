@@ -41,6 +41,7 @@ class DotzuXTabBarController: UITabBarController {
         let logs = UIStoryboard(name: "Logs", bundle: Bundle(for: DotzuX.self)).instantiateViewController(withIdentifier: "Logs")
         let network = UIStoryboard(name: "Network", bundle: Bundle(for: DotzuX.self)).instantiateViewController(withIdentifier: "Network")
         let app = UIStoryboard(name: "App", bundle: Bundle(for: DotzuX.self)).instantiateViewController(withIdentifier: "App")
+        let changeAccount = UIStoryboard(name: "ChangeAccount", bundle: Bundle(for: DotzuX.self)).instantiateViewController(withIdentifier: "ChangeAccount")
         
         //2.
         Sandbox.shared.isSystemFilesHidden = false
@@ -54,12 +55,12 @@ class DotzuXTabBarController: UITabBarController {
         
         //3.
         guard let tabBarControllers = DotzuXSettings.shared.tabBarControllers else {
-            self.viewControllers = [logs, network, app, sandbox]
+            self.viewControllers = [logs, network, app, sandbox, changeAccount]
             return
         }
         
         //4.添加额外的控制器
-        var temp = [logs, network, app, sandbox]
+        var temp = [logs, network, app, sandbox, changeAccount]
         
         for vc in tabBarControllers {
             
