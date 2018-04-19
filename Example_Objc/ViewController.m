@@ -84,14 +84,18 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:accounts forKey:@"account"];
     
-    [RGDebugInfoManager shared].changeAccountClosure = ^(NSString * account, NSString * pwd, NSNumber * index) {
+    [RGDebugInfoManager shared].changeAccountClosure = ^(NSNumber * index, NSString * account, NSString * pwd) {
         NSLog(@"-->%@", account);
         NSLog(@"-->%@", pwd);
         NSLog(@"-->%@", index);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [RGDebugInfoManager shared].changeAccountSuccessClosure();
+            [RGDebugInfoManager shared].dismissClosure();
         });
+    };
+    
+    [RGDebugInfoManager shared].changeAccountActionClosure = ^(NSNumber * index) {
+        NSLog(@"-->%@", index);
     };
 }
 

@@ -27,7 +27,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JGc-0K-rQR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-902" y="-134"/>
+            <point key="canvasLocation" x="-1345" y="-142"/>
         </scene>
         <!--ChangeAccount-->
         <scene sceneID="9kC-W1-VR1">
@@ -59,14 +59,21 @@
                             <constraint firstItem="ek5-ql-teR" firstAttribute="top" secondItem="k4g-px-IO8" secondAttribute="topMargin" id="xVN-dI-RkJ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="ChangeAccount" id="9Uq-jb-iDH"/>
+                    <navigationItem key="navigationItem" title="ChangeAccount" id="9Uq-jb-iDH">
+                        <barButtonItem key="rightBarButtonItem" title="新登陆" id="yLa-a0-Lhw">
+                            <color key="tintColor" red="0.29739615321159363" green="0.82115942239761353" blue="0.37027299404144287" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="loginNewAccount:" destination="vgC-Qd-hwa" id="fJT-9K-oXo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ek5-ql-teR" id="7pb-js-U8P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Agj-TP-EUO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-66.400000000000006" y="-141.67916041979012"/>
+            <point key="canvasLocation" x="-610" y="-142"/>
         </scene>
     </scenes>
     <resources>

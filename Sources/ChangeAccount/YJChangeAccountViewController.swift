@@ -16,7 +16,7 @@ class YJChangeAccountViewController: UIViewController {
         
         tableView.tableFooterView = UIView();
         
-        RGDebugInfoManager.shared.changeAccountSuccessClosure = exitDebugManager
+        RGDebugInfoManager.shared.dismissClosure = exitDebugManager
         
     }
     
@@ -49,7 +49,18 @@ class YJChangeAccountViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    @IBAction func loginNewAccount(_ sender: UIBarButtonItem) {
+        
+        if let actionClosure =  RGDebugInfoManager.shared.changeAccountActionClosure {
+            
+            navigationController?.dismiss(animated: true, completion: {
+                SwiftProgressHUD.hideAllHUD()
+            });
+            actionClosure(NSNumber(value: 1))
+        }else{
+            SwiftProgressHUD.showInfo("未实现接收", autoClear: true, autoClearTime: 2)
+        }
+    }
 }
 
 extension YJChangeAccountViewController: UITableViewDataSource, UITableViewDelegate{
@@ -128,7 +139,7 @@ extension YJChangeAccountViewController: UITableViewDataSource, UITableViewDeleg
                 
                 SwiftProgressHUD.showWait()
                 
-                changeAccountClosure(account, pwd, NSNumber(value: indexPath.row))
+                changeAccountClosure(NSNumber(value: indexPath.row), account, pwd)
             }
         }
     }

@@ -8,13 +8,17 @@
 
 import UIKit
 
-public typealias ChangeAccountClosure = (_ account:String, _ pwd:String, _ index:NSNumber) -> Void
-public typealias ChangeAccountSuccessClosure = () -> Void
+public typealias ChangeAccountClosure = ( _ index:NSNumber, _ account:String, _ pwd:String) -> Void
+public typealias ChangeAccountCloseClosure = () -> Void
+public typealias ChangeAccountActionClosure = (_ index:NSNumber) -> Void
 
 @objc public class RGDebugInfoManager: NSObject {
 
     @objc public var changeAccountClosure: ChangeAccountClosure?
-    @objc public var changeAccountSuccessClosure: ChangeAccountSuccessClosure?
+    @objc public var dismissClosure: ChangeAccountCloseClosure?
+    
+    /// 账号切换的action action 值不同，响应不同的事件，1=新登陆
+    @objc public var changeAccountActionClosure: ChangeAccountActionClosure?
     
     @objc public static let shared = RGDebugInfoManager()
     
