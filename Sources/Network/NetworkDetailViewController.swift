@@ -46,7 +46,7 @@ class NetworkDetailViewController: UITableViewController {
         }
         if requestSerializer == FormRequestSerializer {
             //Form
-            requestContent = httpModel?.requestData.dataToString()
+            requestContent = httpModel?.requestData.dataToString()?.removingPercentEncoding
         }
         
         if httpModel?.isImage == true {
@@ -72,8 +72,8 @@ class NetworkDetailViewController: UITableViewController {
             }
             //3.
             detailModels.append(m1)
-            detailModels.append(m3)
             detailModels.append(m2)
+            detailModels.append(m3)
             detailModels.append(m8)
             detailModels.append(m4)
             detailModels.append(m7)
@@ -100,8 +100,8 @@ class NetworkDetailViewController: UITableViewController {
             }
             //3.
             detailModels.append(m1)
-            detailModels.append(m3)
             detailModels.append(m2)
+            detailModels.append(m3)
             detailModels.append(m8)
             detailModels.append(m4)
             detailModels.append(m7)
